@@ -9,11 +9,11 @@ const userRoutes = require("./routes/user.router");
 const authRoutes = require("./routes/auth.route");
 
 app.use(bodyParser.json());
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
-);
+// app.use(
+//   bodyParser.urlencoded({
+//     extended: true,
+//   })
+// );
 
 app.get("/", (req, res) => {
   res.json("hello world");

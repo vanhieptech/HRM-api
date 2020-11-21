@@ -32,20 +32,23 @@ module.exports = {
         updated_at: moment().now,
         is_deleted: false,
       };
-      let users = await User.createByLambda(entity);
+      let user = await user.createByLambda(entity);
+      console.log("password: ", password);
+
       // create token return token and expires_in
-      let valueToken = await createToken(users[0]);
+      let valueToken = await createToken(user[0]);
       let token_schema = {
-        user_id: users[0]._id,
+        user_id: user[0]._id,
         token: valueToken.token,
         expires_in: +valueToken.expires_in,
         updated_at: moment.now(),
       };
       let tokens = await Token.createByLamda(token_schema);
-      user[0]["password"] = "******";
+      let us = user[0];
+      us.password = "******";
       res.json(
         resSuccess({
-          user: users[0],
+          user: us,
           token: tokens[0].token,
         })
       );
