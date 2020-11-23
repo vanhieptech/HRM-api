@@ -26,8 +26,8 @@ module.exports = {
           detail: "Invalid login",
         };
       }
-      let token = await Token.findByLamda({ user_id: user[0]._id });
-      console.log("token:" + JSON.stringify(token));
+      let tokens = await Token.findByLamda({ user_id: user[0]._id });
+      console.log("token:" + JSON.stringify(tokens));
 
       let us = user[0];
       us.password = "******";

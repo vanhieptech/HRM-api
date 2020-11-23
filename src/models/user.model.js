@@ -26,7 +26,7 @@ module.exports = {
   findByEmailPassword: async function (lambda) {
     lambda = {
       ...lambda,
-      is_deleted: false || undefined,
+      is_deleted: false,
     };
     return await User.aggregate([
       {
