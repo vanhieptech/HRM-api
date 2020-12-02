@@ -3,7 +3,6 @@ const Token = require("../models/token.model");
 const resSuccess = require("../response/res-success");
 const resFail = require("../response/res-fail");
 const { createToken, intDate } = require("../util");
-
 const { omitBy, isNil } = require("lodash");
 const moment = require("moment");
 const sha256 = require("crypto-js/sha256");
