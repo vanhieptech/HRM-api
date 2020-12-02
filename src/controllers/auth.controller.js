@@ -31,6 +31,7 @@ module.exports = {
 
       let us = user[0];
       us.password = "******";
+      delete us.password;
       res.json(
         resSuccess({
           user: us,
@@ -70,6 +71,7 @@ module.exports = {
       };
       let tokens = await Token.createByLamda(token_schema);
       user[0]["password"] = "******";
+      delete user[0]["password"];
       res.json(
         resSuccess({
           user: user[0],

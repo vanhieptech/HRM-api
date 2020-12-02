@@ -11,12 +11,19 @@ const sha256 = require("crypto-js/sha256");
 module.exports = {
   listUser: async function (req, res, next) {
     let data = await user.findByLambda();
+    console.log(JSON.stringify(data));
+    for (let item of data) {
+      item.password = "******";
+      console.log("item: ", JSON.stringify(item));
+    }
     res.json(resSuccess({ data: data }));
   },
 
   findById: async function (req, res) {
     let id = req.params.id;
     let data = await user.findByLambda({ _id: id });
+    let us = data[0];
+    data[0].password = "******";
     res.json(resSuccess({ data: data[0] }));
   },
 
@@ -46,6 +53,7 @@ module.exports = {
       let tokens = await Token.createByLamda(token_schema);
       let us = user[0];
       us.password = "******";
+      delete us.password;
       res.json(
         resSuccess({
           user: us,
@@ -68,7 +76,6 @@ module.exports = {
         password: password || undefined,
         avatar: req.body.avatar || undefined,
         updated_at: moment().now,
-        is_deleted: false,
       };
 
       let entityLast = omitBy(entity, isNil);
