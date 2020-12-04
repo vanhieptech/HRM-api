@@ -20,7 +20,7 @@ module.exports = {
       let entity = {
         user_id: req.body.user_id,
         result: req.body.result,
-        create_at: moment().now,
+        create_at: moment.now(),
         is_deleted: false,
       };
       let history = await History.createByLambda(entity);

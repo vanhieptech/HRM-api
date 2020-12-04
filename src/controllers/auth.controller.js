@@ -57,7 +57,7 @@ module.exports = {
         email: req.body.email || undefined,
         password: password || undefined,
         avatar: req.body.avatar || undefined,
-        updated_at: moment().now,
+        updated_at: moment.now(),
         is_deleted: false,
       };
       let user = await User.createByLambda(entity);
