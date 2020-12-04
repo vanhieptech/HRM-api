@@ -50,7 +50,7 @@ module.exports = {
         expires_in: +valueToken.expires_in,
         updated_at: moment.now(),
       };
-      let tokens = await Token.createByLamda(token_schema);
+      let tokens = await Token.createByLambda(token_schema);
       let us = user[0];
       us.password = "******";
       delete us.password;

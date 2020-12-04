@@ -26,7 +26,7 @@ module.exports = {
           detail: "Invalid login",
         };
       }
-      let tokens = await Token.findByLamda({ user_id: user[0]._id });
+      let tokens = await Token.findByLambda({ user_id: user[0]._id });
       console.log("token:" + JSON.stringify(tokens));
 
       let us = user[0];
@@ -70,7 +70,7 @@ module.exports = {
         create_at: moment.now(),
         updated_at: moment.now(),
       };
-      let tokens = await Token.createByLamda(token_schema);
+      let tokens = await Token.createByLambda(token_schema);
       user[0]["password"] = "******";
       delete user[0]["password"];
       res.json(
