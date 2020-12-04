@@ -1,4 +1,4 @@
-let user = require("../models/user.model");
+let User = require("../models/user.model");
 const Token = require("../models/token.model");
 const resSuccess = require("../response/res-success");
 const resFail = require("../response/res-fail");
@@ -9,7 +9,7 @@ const sha256 = require("crypto-js/sha256");
 
 module.exports = {
   listUser: async function (req, res, next) {
-    let data = await user.findByLambda();
+    let data = await User.findByLambda();
     console.log(JSON.stringify(data));
     for (let item of data) {
       item.password = "******";
@@ -20,7 +20,7 @@ module.exports = {
 
   findById: async function (req, res) {
     let id = req.params.id;
-    let data = await user.findByLambda({ _id: id });
+    let data = await User.findByLambda({ _id: id });
     let us = data[0];
     data[0].password = "******";
     res.json(resSuccess({ data: data[0] }));
@@ -35,10 +35,11 @@ module.exports = {
         email: req.body.email || undefined,
         password: password || undefined,
         avatar: req.body.avatar || undefined,
+        create_at: moment.now(),
         updated_at: moment().now,
         is_deleted: false,
       };
-      let user = await user.createByLambda(entity);
+      let user = await User.createByLambda(entity);
       console.log("password: ", password);
 
       // create token return token and expires_in
@@ -79,7 +80,7 @@ module.exports = {
 
       let entityLast = omitBy(entity, isNil);
 
-      let result = await user.updateByLambda({ _id: id }, entityLast);
+      let result = await User.updateByLambda({ _id: id }, entityLast);
       res.json(resSuccess({ data: result }));
     } catch (error) {
       data = {
@@ -97,7 +98,7 @@ module.exports = {
       let entity = {
         is_deleted: true,
       };
-      let result = await user.updateByLambda({ _id: id }, entity);
+      let result = await User.updateByLambda({ _id: id }, entity);
       res.json(resSuccess({ data: result }));
     } catch (error) {
       data = {

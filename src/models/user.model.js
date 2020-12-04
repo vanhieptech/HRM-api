@@ -7,8 +7,9 @@ let userSchema = new mongoose.Schema(
     email: String,
     password: String,
     avatar: String,
-    is_deleted: Boolean,
+    create_at: Date,
     updated_at: Date,
+    is_deleted: Boolean,
   },
   { versionKey: false }
 );

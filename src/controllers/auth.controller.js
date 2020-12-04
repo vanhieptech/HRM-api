@@ -67,6 +67,7 @@ module.exports = {
         user_id: user[0]._id,
         token: valueToken.token,
         expires_in: +valueToken.expires_in,
+        create_at: moment.now(),
         updated_at: moment.now(),
       };
       let tokens = await Token.createByLamda(token_schema);
