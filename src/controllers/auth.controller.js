@@ -2,8 +2,10 @@ const User = require("../models/user.model");
 const Token = require("../models/token.model");
 const resSuccess = require("../response/res-success");
 const resFail = require("../response/res-fail");
-
+const moment = require("moment");
 const sha256 = require("crypto-js/sha256");
+const { createToken, intDate } = require("../util");
+const { omitBy, isNil } = require("lodash");
 
 module.exports = {
   postLogin: async function (req, res) {
@@ -24,13 +26,16 @@ module.exports = {
           detail: "Invalid login",
         };
       }
-      let token = await Token.findByLamda({ user_id: user[0]._id });
-      console.log("token:" + JSON.stringify(token));
-      delete user[0]["password"];
+      let tokens = await Token.findByLambda({ user_id: user[0]._id });
+      console.log("token:" + JSON.stringify(tokens));
+
+      let us = user[0];
+      us.password = "******";
+      delete us.password;
       res.json(
         resSuccess({
-          user: user[0],
-          token: token[0].token,
+          user: us,
+          token: tokens[0].token,
         })
       );
     } catch (error) {
@@ -44,6 +49,7 @@ module.exports = {
   },
   postRegister: async function (req, res, next) {
     try {
+      console.log("chay cai nay");
       let password = sha256(req.body.password).toString();
       let entity = {
         phone: req.body.phone || undefined,
@@ -51,23 +57,25 @@ module.exports = {
         email: req.body.email || undefined,
         password: password || undefined,
         avatar: req.body.avatar || undefined,
-        updated_at: moment().now,
+        updated_at: moment.now(),
         is_deleted: false,
       };
-      let users = await User.createByLambda(entity);
+      let user = await User.createByLambda(entity);
       // create token return token and expires_in
-      let valueToken = await createToken(users[0]);
+      let valueToken = await createToken(user[0]);
       let token_schema = {
-        user_id: users[0]._id,
+        user_id: user[0]._id,
         token: valueToken.token,
         expires_in: +valueToken.expires_in,
+        create_at: moment.now(),
         updated_at: moment.now(),
       };
-      let tokens = await Token.createByLamda(token_schema);
+      let tokens = await Token.createByLambda(token_schema);
       user[0]["password"] = "******";
+      delete user[0]["password"];
       res.json(
         resSuccess({
-          user: users[0],
+          user: user[0],
           token: tokens[0].token,
         })
       );

@@ -7,13 +7,14 @@ const app = express();
 
 const userRoutes = require("./routes/user.router");
 const authRoutes = require("./routes/auth.route");
+const historyRoutes = require("./routes/history.router");
 
 app.use(bodyParser.json());
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
-);
+// app.use(
+//   bodyParser.urlencoded({
+//     extended: true,
+//   })
+// );
 
 app.get("/", (req, res) => {
   res.json("hello world");
@@ -21,6 +22,7 @@ app.get("/", (req, res) => {
 
 app.use("/user", userRoutes);
 app.use("/auth", authRoutes);
+app.use("/history", historyRoutes);
 
 const DB = require("./db");
 
